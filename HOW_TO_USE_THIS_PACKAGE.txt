@@ -1,0 +1,23 @@
+﻿CHURN PREDICTION MLOPS - FLAT STUDENT FILE PACKAGE
+
+This folder intentionally contains files in one flat directory instead of the original subfolders.
+It is a file handout, not a directly runnable project until the original folders are recreated.
+
+HOW TO REBUILD THE PROJECT
+1. Read PROJECT_STRUCTURE.txt to see the original directory structure.
+2. Open FILE_PLACEMENT_MAP.csv. Each row maps PackagedFile to OriginalProjectPath.
+3. Create the needed folders in a new project directory.
+4. Move each packaged file into its OriginalProjectPath location.
+5. If PackagedFile differs from the filename at the end of OriginalProjectPath, rename it to that original filename.
+6. Follow the reconstructed project's README.md for setup and execution. Create a fresh Python virtual environment; do not copy your own venv.
+
+FILES INTENTIONALLY EXCLUDED
+Local virtual environments, Git history, MLflow run-artifact storage, caches, generated outputs/logs,
+local mlflow.db registry state, local .env/secret files, and identified temporary/debugging files are excluded.
+Your code may need an MLflow registry/model setup step in a fresh environment; document or run the project's setup steps before retraining/deployment.
+
+IMPORTANT
+- This package was created by copying files from the source folder. The source project was not modified.
+- The flat package is not directly executable; restore each file to its mapped path first.
+- Test the rebuilt project in a clean directory before distributing it to students.
+- Only share data and model artifacts you are permitted to redistribute.

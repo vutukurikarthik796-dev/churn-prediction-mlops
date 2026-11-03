@@ -1,0 +1,72 @@
+# Environments
+venv/
+env/
+__pycache__/
+.ipynb_checkpoints/
+
+# Ignore ALL data files
+data/raw/*.csv
+!data/raw/churn.csv
+data/processed/*.npy
+
+# Ignore model artifacts
+models/*.pkl
+
+logs/
+outputs/
+
+.vscode/
+
+# Ignore MLflow tracking data and databases
+mlruns/
+mlflow.db
+
+# Ignore locally generated artifact plots and reports
+artifacts/
+# Additional local environments and generated files
+.venv/
+*.db
+*.db.backup*
+*.pkl
+new_churn.csv
+evolved_data.csv
+evolved_labeled_data.csv
+post_drift_training_data.csv
+updated_training_data.csv
+
+# Root-level generated datasets and training arrays
+/churn.csv
+/churn_v*.csv
+/baseline_validation.csv
+/corrupted_simulation_errors.csv
+/new_data_validation.csv
+/test_customer_ids.csv
+/X_*.npy
+/y_*.npy
+/updated_training_data.csv
+
+# Generated plots and reports
+/*.png
+/api*_report.json
+/data_load_report.json
+/evaluation_report.json
+/failure_report.json
+/failure_simulation_report.json
+/lifecycle_report.json
+/performance_report.json
+/quality_gate_report.json
+/reproducibility_report.json
+/preprocessing_summary_report.json
+/production_model_report.json
+/deployment_automation_report.json
+/pipeline_reproducibility_report.json
+
+# Generated root-level training data
+/X_train_raw.csv
+/X_test_raw.csv
+
+# Generated processed datasets
+/data/processed/
+
+# Generated reports
+/reports/*.json
