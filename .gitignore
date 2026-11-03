@@ -1,40 +1,46 @@
-# Environments
+# Python environments and cache
+.venv/
 venv/
 env/
 __pycache__/
+*.py[cod]
 .ipynb_checkpoints/
 
-# Ignore ALL data files
+# Editors and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Raw datasets: keep the main project dataset
 data/raw/*.csv
 !data/raw/churn.csv
+
+# Generated processed datasets
 data/processed/*.npy
+data/processed/*.csv
+!data/processed/.gitkeep
 
-# Ignore model artifacts
+# Model artifacts
 models/*.pkl
+*.pkl
+!deployment/model_metadata.json
 
-logs/
-outputs/
+# Generated outputs, logs and artifacts
+outputs/*
+logs/*
+artifacts/*
+!outputs/.gitkeep
+!logs/.gitkeep
+!artifacts/.gitkeep
+!models/.gitkeep
 
-.vscode/
-
-# Ignore MLflow tracking data and databases
+# MLflow databases and tracking
 mlruns/
-mlflow.db
-
-# Ignore locally generated artifact plots and reports
-artifacts/
-# Additional local environments and generated files
-.venv/
 *.db
 *.db.backup*
-*.pkl
-new_churn.csv
-evolved_data.csv
-evolved_labeled_data.csv
-post_drift_training_data.csv
-updated_training_data.csv
 
-# Root-level generated datasets and training arrays
+# Generated root-level datasets and arrays
 /churn.csv
 /churn_v*.csv
 /baseline_validation.csv
@@ -43,9 +49,15 @@ updated_training_data.csv
 /test_customer_ids.csv
 /X_*.npy
 /y_*.npy
+/X_train_raw.csv
+/X_test_raw.csv
+/new_churn.csv
+/evolved_data.csv
+/evolved_labeled_data.csv
+/post_drift_training_data.csv
 /updated_training_data.csv
 
-# Generated plots and reports
+# Generated reports and plots
 /*.png
 /api*_report.json
 /data_load_report.json
@@ -61,12 +73,11 @@ updated_training_data.csv
 /deployment_automation_report.json
 /pipeline_reproducibility_report.json
 
-# Generated root-level training data
-/X_train_raw.csv
-/X_test_raw.csv
+# Keep project directory placeholders
+!data/processed/.gitkeep
 
-# Generated processed datasets
-/data/processed/
+# Generated monitoring datasets
+/data/monitoring/
 
-# Generated reports
+# Generated Lab reports
 /reports/*.json
