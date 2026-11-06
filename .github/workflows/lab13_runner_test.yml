@@ -1,0 +1,43 @@
+
+name: Lab 13 - Self Hosted Runner Test
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test-runner:
+    runs-on: [self-hosted, Windows, X64]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check Python
+        shell: powershell
+        run: python --version
+
+      - name: Check Git
+        shell: powershell
+        run: git --version
+
+      - name: Check Docker
+        shell: powershell
+        run: docker info
+
+      - name: Check Kubernetes
+        shell: powershell
+        run: kubectl get nodes
+
+      - name: Check Project Files
+        shell: powershell
+        run: |
+          Write-Host "Runner: $env:RUNNER_NAME"
+          Write-Host "Workspace: $env:GITHUB_WORKSPACE"
+
+          Test-Path ".\churn_prediction_pipeline.py"
+          Test-Path ".\12_monitor_trigger.py"
+          Test-Path ".\config.yaml"
+          Test-Path ".\requirements.txt"
