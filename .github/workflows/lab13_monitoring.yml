@@ -1,0 +1,62 @@
+
+name: Lab 13 - End-to-End MLOps Monitoring
+
+on:
+  workflow_dispatch:
+
+jobs:
+  mlops-monitoring:
+    runs-on: [self-hosted, Windows, X64]
+
+    steps:
+      - name: Verify Project Environment
+        shell: powershell
+        run: |
+          $project = "C:\Users\KARTHIK\Downloads\churn-prediction-full-project-files\churn-prediction-full-project-files"
+          $python = "C:\Users\KARTHIK\Downloads\churn-prediction-full-project-files\.venv\Scripts\python.exe"
+
+          if (!(Test-Path $project)) {
+              throw "Project directory not found"
+          }
+
+          if (!(Test-Path $python)) {
+              throw "Python environment not found"
+          }
+
+          if (!(Test-Path "$project\12_monitor_trigger.py")) {
+              throw "Monitoring script not found"
+          }
+
+          Write-Host "Project and Python environment verified."
+
+      - name: Run MLOps Monitoring Trigger
+        shell: powershell
+        run: |
+          $project = "C:\Users\KARTHIK\Downloads\churn-prediction-full-project-files\churn-prediction-full-project-files"
+          $python = "C:\Users\KARTHIK\Downloads\churn-prediction-full-project-files\.venv\Scripts\python.exe"
+
+          Set-Location $project
+          & $python ".\12_monitor_trigger.py"
+
+          if ($LASTEXITCODE -ne 0) {
+              throw "Monitoring trigger failed"
+          }
+
+      - name: Show Monitoring Result
+        shell: powershell
+        run: |
+          $project = "C:\Users\KARTHIK\Downloads\churn-prediction-full-project-files\churn-prediction-full-project-files"
+          $report = "$project\outputs\monitoring\monitor_trigger_report.json"
+
+          if (Test-Path $report) {
+              Get-Content $report
+          } else {
+              throw "Monitoring report was not generated"
+          }
+
+      - name: Verify Kubernetes
+        continue-on-error: true
+        shell: powershell
+        run: |
+          kubectl get deployment churn-api
+          kubectl get pods

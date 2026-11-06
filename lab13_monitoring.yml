@@ -1,34 +1,61 @@
-name: Lab 13 - End-to-End MLOps
-# Integration test: process a genuinely new incoming batch
+
+name: Lab 13 - End-to-End MLOps Monitoring
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "17 * * * *"
-      timezone: "Asia/Kolkata"
 
 jobs:
   mlops-monitoring:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
-      - name: Run MLOps monitoring trigger
+      - name: Verify Project Environment
         shell: powershell
         run: |
-          Set-Location "C:\Users\jnane\Favorites\churn-prediction"
-          & ".\venv\Scripts\python.exe" ".\src\mlops_pipeline\12_monitor_trigger.py"
+          $project = "C:\Users\KARTHIK\Downloads\churn-prediction-full-project-files\churn-prediction-full-project-files"
+          $python = "C:\Users\KARTHIK\Downloads\churn-prediction-full-project-files\.venv\Scripts\python.exe"
 
-      - name: Show monitoring result
+          if (!(Test-Path $project)) {
+              throw "Project directory not found"
+          }
+
+          if (!(Test-Path $python)) {
+              throw "Python environment not found"
+          }
+
+          if (!(Test-Path "$project\12_monitor_trigger.py")) {
+              throw "Monitoring script not found"
+          }
+
+          Write-Host "Project and Python environment verified."
+
+      - name: Run MLOps Monitoring Trigger
         shell: powershell
         run: |
-          Set-Location "C:\Users\jnane\Favorites\churn-prediction"
-          if (Test-Path ".\outputs\monitoring\monitor_trigger_report.json") {
-              Get-Content ".\outputs\monitoring\monitor_trigger_report.json"
+          $project = "C:\Users\KARTHIK\Downloads\churn-prediction-full-project-files\churn-prediction-full-project-files"
+          $python = "C:\Users\KARTHIK\Downloads\churn-prediction-full-project-files\.venv\Scripts\python.exe"
+
+          Set-Location $project
+          & $python ".\12_monitor_trigger.py"
+
+          if ($LASTEXITCODE -ne 0) {
+              throw "Monitoring trigger failed"
+          }
+
+      - name: Show Monitoring Result
+        shell: powershell
+        run: |
+          $project = "C:\Users\KARTHIK\Downloads\churn-prediction-full-project-files\churn-prediction-full-project-files"
+          $report = "$project\outputs\monitoring\monitor_trigger_report.json"
+
+          if (Test-Path $report) {
+              Get-Content $report
           } else {
-              Write-Host "Monitoring report was not generated."
+              throw "Monitoring report was not generated"
           }
 
       - name: Verify Kubernetes
+        continue-on-error: true
         shell: powershell
         run: |
           kubectl get deployment churn-api
